@@ -9,14 +9,20 @@ const productController = require('../../controllers/mobile/ProductController');
 
 
 
-/******************** Auth Mobile Routes ****************************/
+/******************** Auth  ****************************/
 router.post('/signUp', authController.signUp );
 router.post('/login', authController.login )
 router.get('/listUser', authenticate(), authorization(),  authController.listUser);
 
-/******************** Product  **************************************/
+/******************* Product  ***************************/
 router.post('/addProduct', authenticate(), authorization(), productController.addProduct );
-router.get('/listProduct', authenticate(), authorization(), productController.listProduct );
+router.get('/listProduct',  productController.listProduct );
+router.post('/editProduct/:id', authenticate(), authorization(), productController.editProduct );
+router.delete('/deleteProduct/:id', authenticate(), authorization(), productController.deleteProduct );
+
+/******************** Cart *******************************/
+router.post('/addToCart/:id', authenticate(), productController.addToCart )
+
 
 
 module.exports = router;
