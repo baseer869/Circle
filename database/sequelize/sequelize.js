@@ -7,6 +7,7 @@ let db = {
  Sequelize: Sequelize,
  users : (require('../schemas/user'))(instance, Sequelize),
  products: (require('../schemas/product'))(instance, Sequelize),
+ cart: (require('../schemas/cart'))(instance, Sequelize),
 
 };
 
