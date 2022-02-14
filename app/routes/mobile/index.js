@@ -16,12 +16,12 @@ router.get('/listUser', authenticate(), authorization(),  authController.listUse
 
 /******************* Product  ***************************/
 router.post('/addProduct', authenticate(), authorization(), productController.addProduct );
-router.get('/listProduct',  productController.listProduct );
+router.get('/listProduct', authenticate(),  productController.listProduct );
 router.post('/editProduct/:id', authenticate(), authorization(), productController.editProduct );
 router.delete('/deleteProduct/:id', authenticate(), authorization(), productController.deleteProduct );
 
 /******************** Cart *******************************/
-router.post('/addToCart/:id', authenticate(), productController.addToCart )
+router.post('/addToCart', authenticate(), productController.addToCart )
 
 
 

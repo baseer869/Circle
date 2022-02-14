@@ -8,15 +8,6 @@ module.exports = function (sequelize, Sequelizew) {
             primaryKey: true,
             autoIncrement: true
         },
-        product_id: {
-            type: DataTypes.BIGINT(20),
-            references: {
-                model: "product",
-                key: "id"
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
-        },
         user_id: {
             type: DataTypes.BIGINT(20),
             references: {

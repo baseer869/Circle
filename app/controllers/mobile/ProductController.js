@@ -3,7 +3,7 @@ const models = require('../../../database/sequelize/sequelize');
 const sendResponse = require('../../utility/functon/sendResponse');
 
 module.exports = {
-  
+
     addProduct: async (req, res, next) => {
         try {
             let { name, description, price, stock, attachment, isAvailable, longDesc } = req.body;
@@ -40,10 +40,10 @@ module.exports = {
             let findQuery = {
                 where: []
             };
-            if (search) {
-                findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
-            }
-            let list = await models.products.findAll(findQuery);
+            // if (search) {
+            //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
+            // }
+            let list = await models.products.findAll({});
             if (!list) {
                 return res.status(200).send({
                     status: 200,
@@ -120,30 +120,53 @@ module.exports = {
         }
     },
 
- /********************** CART ************************************* */
+    /********************** CART ************************************* */
 
- addToCart: async (req, res, next) => {
+    addToCart: async (req, res, next) => {
         try {
+            let { user_id, product_id, price, quantity, discount, active } = req.body;
+            let cart;
             let findQuery = {
-                where: { id: req.params.id }
+                where: { product_id: product_id  }
             };
-            let product = await models.products.findOne(findQuery);
-            if (product) {
-                // increase the quantity
+            console.log('find==>', findQuery);
 
-                return res.status(200).send({
-                    status: 200,
-                    message: "Product deleted",
-                    data: product
-                });
-            } else if(!product) {
+        //    let item = await models.cart.findAll({});
+        //     console.log('cartaaa==>', item)
+        //     if (item) {
+        //         // increase the quantity
+
+        //         return res.status(200).send({
+        //             status: 200,
+        //             message: "cart ",
+        //             data: item
+        //         });
+        //     } else if (!item) {
+
                 //create  new cart item 
-                return res.status(400).send({
-                    status: 400,
-                    message: "Record not found",
-                    data: []
-                });
-            }
+                cart = new models.cart({});
+                cart.user_id = user_id;
+                cart.product_id = product_id;
+                cart.quantity = quantity;
+                cart.price = price;
+                cart.discount = discount;
+                cart.active = active;
+                cart = await cart.save();
+                if (cart) {
+                    return res.status(200).send({
+                        status: 200,
+                        message: "Item added to cat",
+                        data: cart
+                    });
+                } else {
+                    return res.status(200).send({
+                        status: 200,
+                        message: "DB Error",
+                        data: cart
+                    });
+                }
+
+            // }
 
         } catch (error) {
             sendResponse.error(error)

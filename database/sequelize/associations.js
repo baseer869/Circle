@@ -8,14 +8,16 @@ module.exports = function (db) {
         as: "users",
         foreignKey: 'cart_id',
     });
-
-    db.cart.hasMany(db.products, {
-        as: "products",
+    
+    db.cart.belongsToMany( db.products, {
+        as: 'products',
         foreignKey: 'product_id',
+        through: db.cart_product
     });
-    db.products.belongsTo(db.cart, {
-        as: "cart",
-        foreignKey: 'product_id',
+    db.products.belongsToMany( db.cart, {
+        as: 'cart_products',
+        foreignKey: 'cart_id',
+        through: db.cart_product
     });
 
 }
