@@ -9,6 +9,8 @@ let db = {
  products: (require('../schemas/product'))(instance, Sequelize),
  cart: (require('../schemas/cart'))(instance, Sequelize),
  cart_product: (require('../schemas/cart_product'))(instance, Sequelize),
+ shop_request: (require('../schemas/shop_request'))(instance, Sequelize),
+
 
 };
 

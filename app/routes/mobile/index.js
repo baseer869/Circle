@@ -5,6 +5,7 @@ const authenticate = require('../../middleware/authentication');
 const authorization = require('../../middleware/authorization');
 const authController = require('../../controllers/mobile/authController');
 const productController = require('../../controllers/mobile/ProductController');
+const shopRequestController = require('../../controllers/mobile/shopRequestController');
 
 
 
@@ -22,6 +23,9 @@ router.delete('/deleteProduct/:id', authenticate(), authorization(), productCont
 
 /******************** Cart *******************************/
 router.post('/addToCart', authenticate(), productController.addToCart )
+
+/********************** Vendor****************************/
+router.post('/shopRequest',  shopRequestController.shopRequest  )
 
 
 
