@@ -6,6 +6,7 @@ module.exports = {
 
     addProduct: async (req, res, next) => {
         try {
+            console.log('callled')
             let { name, description, price, stock, attachment, isAvailable, longDesc } = req.body;
             let product = new models.products({});
             product.name = name;

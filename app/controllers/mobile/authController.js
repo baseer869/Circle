@@ -56,7 +56,6 @@ module.exports = {
                     id: user.username
                 }, 'secret', { expiresIn: 3600 });
                 let authKey = await models.auth_key.findOne({ where: { user_id: user.id } });
-                
                 if (!authKey) {
                     let AuthKey = new models.auth_key({});
                     authKey.auth_key = token;

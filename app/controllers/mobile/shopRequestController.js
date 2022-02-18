@@ -3,7 +3,7 @@ const models = require('../../../database/sequelize/sequelize');
 const sendResponse = require('../../utility/functon/sendResponse');
 
 module.exports = {
-    signUp: async (req, res, next) => {
+    shopRequest: async (req, res, next) => {
 
         try {
             let { name,shop_name,phone, } = req.body;

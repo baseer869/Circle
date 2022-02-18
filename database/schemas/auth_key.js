@@ -20,6 +20,14 @@ const Model = sequelize.define('auth_keys', {
             key: "id"
         },
     },
+    createdAt: {
+        field: "created_at",
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        field: "updated_at",
+        type: Sequelize.DATE,
+      }, 
    
 });
 return Model;

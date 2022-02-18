@@ -7,7 +7,7 @@ module.exports = function () {
         try {
             let token = req.headers.authorization;
             let findQuery = {
-                where: { token: token }
+                where: { auth_key: token }
             }
 
             if (!token || token === "" || token === null) {
@@ -16,9 +16,10 @@ module.exports = function () {
                     message: "Token Auththenication failed!"
                 });
             }
-            let user = await model.users.findOne(findQuery)
-            if (user && user.token === token) {
-                req.user = user            
+            let auth_key = await model.auth_key.findOne(findQuery);
+            let { user_id} = auth_key;
+            if (auth_key) {
+                req.userId = user_id;            
                 next();
             } else {
                 return res.status(400).send({

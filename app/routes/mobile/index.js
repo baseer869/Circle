@@ -15,17 +15,20 @@ router.post('/signUp', authController.signUp );
 router.post('/login', authController.login )
 router.get('/listUser', authenticate(), authorization(),  authController.listUser);
 
-/******************* Product  ***************************/
-router.post('/addProduct', authenticate(), authorization(), productController.addProduct );
-router.get('/listProduct', authenticate(),  productController.listProduct );
-router.post('/editProduct/:id', authenticate(), authorization(), productController.editProduct );
-router.delete('/deleteProduct/:id', authenticate(), authorization(), productController.deleteProduct );
-
-/******************** Cart *******************************/
-router.post('/addToCart', authenticate(), productController.addToCart )
 
 /********************** Vendor****************************/
-router.post('/shopRequest',  shopRequestController.signUp)
+router.post('/shopRequest',  shopRequestController.shopRequest)
+router.post('/addProduct', authenticate(), productController.addProduct );
+router.post('/editProduct/:id', authenticate(),  productController.editProduct );
+router.delete('/deleteProduct/:id', authenticate(), productController.deleteProduct );
+
+
+
+/******************* End User  ***************************/
+router.get('/listProduct', productController.listProduct );
+router.post('/addToCart', authenticate(), productController.addToCart )
+
+
 
 
 
