@@ -25,8 +25,16 @@ router.delete('/deleteProduct/:id', authenticate(), authorization(), productCont
 router.post('/addToCart', authenticate(), productController.addToCart )
 
 /********************** Vendor****************************/
-router.post('/shopRequest',  shopRequestController.shopRequest  )
+router.post('/shopRequest',  shopRequestController.signUp  )
 
 
 
 module.exports = router;
+
+//shop request 
+//list request on cms 
+//take action request  
+//create account for requested vendor 
+//add shop for requested vendor
+// vendor can update shop detail,
+// vendor can update  
