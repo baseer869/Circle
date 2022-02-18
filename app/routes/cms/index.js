@@ -12,7 +12,11 @@ const shopRequestController = require('../../controllers/mobile/shopRequestContr
 /******************** Auth  ****************************/
 router.post('/signUp', authController.signUp );
 router.post('/login', authController.login );
-router.get('listShopRequest', shopRequestController.listShopRequest)
+
+/********************* Vendor ***************************/
+router.post('/updateShopRequest',  shopRequestController.updateShopRequest)
+router.get('/listShopRequest',  shopRequestController.ListShopRequest)
+
 
 
 module.exports = router;

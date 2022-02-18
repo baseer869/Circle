@@ -25,7 +25,8 @@ router.delete('/deleteProduct/:id', authenticate(), authorization(), productCont
 router.post('/addToCart', authenticate(), productController.addToCart )
 
 /********************** Vendor****************************/
-router.post('/shopRequest',  shopRequestController.signUp  )
+router.post('/shopRequest',  shopRequestController.signUp)
+
 
 
 

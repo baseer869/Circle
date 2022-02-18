@@ -33,15 +33,41 @@ module.exports = {
             });
         }
     },
-    listShopRequest: async (req, res, next) => {
+    updateShopRequest: async (req, res, next) => {
         try {
-            let { search } = req.query;
+            let { search, id } = req.query;
+            let findQuery = {
+                where: { id: id  }
+            };
+            let shop = await models.shop_request.update(req.body, findQuery);
+            if (!shop) {
+                return res.status(200).send({
+                    status: 200,
+                    messsage: "No record",
+                    data: []
+                });
+            }
+            return res.status(200).send({
+                status: 200,
+                message: "updated successfull",
+                data: {
+                    result: shop
+                }
+            });
+
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
+    ListShopRequest: async (req, res, next) => {
+        try {
+            let { status,  } = req.query;
             let findQuery = {
                 where: []
             };
-            // if (search) {
-            //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
-            // }
+            if( status && status !== "" && status !== null){
+                findQuery.where.push({ status: String(status).trim()});
+            }
             let list = await models.shop_request.findAll(findQuery);
             if (!list) {
                 return res.status(200).send({
@@ -52,9 +78,9 @@ module.exports = {
             }
             return res.status(200).send({
                 status: 200,
-                message: "fetch successfull",
+                message: "fetch successfully",
                 data: {
-                    list: list
+                    result: list
                 }
             });
 
