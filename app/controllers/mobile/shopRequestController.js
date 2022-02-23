@@ -6,8 +6,7 @@ module.exports = {
     shopRequest: async (req, res, next) => {
 
         try {
-            let { name,shop_name,phone, } = req.body;
-            
+            let { name, shop_name, phone, } = req.body;
             let shopRequest = new models.shop_request({});
             shopRequest.name = name;
             shopRequest.shop_name = shop_name;
@@ -37,7 +36,7 @@ module.exports = {
         try {
             let { search, id } = req.query;
             let findQuery = {
-                where: { id: id  }
+                where: { id: id }
             };
             let shop = await models.shop_request.update(req.body, findQuery);
             if (!shop) {
@@ -59,14 +58,16 @@ module.exports = {
             sendResponse.error(error)
         }
     },
+
     ListShopRequest: async (req, res, next) => {
         try {
-            let { status,  } = req.query;
+            let { status, } = req.query;
             let findQuery = {
-                where: []
+                where: [],
+                order: [['createdAt', 'DESC']]
             };
-            if( status && status !== "" && status !== null){
-                findQuery.where.push({ status: String(status).trim()});
+            if (status && status !== "" && status !== null) {
+                findQuery.where.push({ status: String(status).trim() });
             }
             let list = await models.shop_request.findAll(findQuery);
             if (!list) {
@@ -84,6 +85,47 @@ module.exports = {
                 }
             });
 
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
+    createShop: async (req, res, next) => {
+        try {
+            let shop;
+            let findQuery = {
+                where: { request_id: req.body.request_id },
+            };
+            shop = await models.shop.findOne(findQuery);
+            if (shop) {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Shop Already exist on this request",
+                    data: []
+                });
+            } else if (!shop) {
+                console.log('shopsss')
+                shop = new models.shop({});
+                shop = await shop.create(req.body);
+                if (shop) {
+                    return res.status(200).json({
+                        status: 200,
+                        message: "Shop created successfully",
+                        data: shop
+                    });
+                } else {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Unable to create shop",
+                        data: []
+                    });
+                }
+            } else {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Db Eror",
+                    data: []
+                });
+            }
         } catch (error) {
             sendResponse.error(error)
         }

@@ -19,8 +19,8 @@ router.get('/listUser', authenticate(), authorization(),  authController.listUse
 /********************** Vendor****************************/
 router.post('/shopRequest',  shopRequestController.shopRequest)
 router.post('/addProduct', authenticate(), authorization(), productController.addProduct );
-router.post('/editProduct/:id', authenticate(),  productController.editProduct );
-router.delete('/deleteProduct/:id', authenticate(), productController.deleteProduct );
+router.post('/editProduct/:id', authenticate(), authorization(),  productController.editProduct );
+router.delete('/deleteProduct/:id', authenticate(), authorization(), productController.deleteProduct );
 
 
 

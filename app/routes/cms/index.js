@@ -16,6 +16,8 @@ router.post('/login', authController.login );
 /********************* Vendor ***************************/
 router.post('/updateShopRequest',  shopRequestController.updateShopRequest)
 router.get('/listShopRequest',  shopRequestController.ListShopRequest)
+router.post('/createShop',   shopRequestController.createShop)
+
 
 
 
