@@ -6,7 +6,7 @@ module.exports = {
 
     addProduct: async (req, res, next) => {
         try {
-            let { name, description, price, stock, attachment, isAvailable, longDesc } = req.body;
+            let { name, description, price, stock, attachment, isAvailable, longDesc, shop_id } = req.body;
             let product = new models.products({});
             product.name = name;
             product.description = description;
@@ -15,7 +15,7 @@ module.exports = {
             product.attachment = attachment;
             product.isAvailable = isAvailable;
             product.longDesc = longDesc;
-
+            product.shop_id = shop_id
             let item = await product.save();
             if (item) {
                 return res.status(200).send({

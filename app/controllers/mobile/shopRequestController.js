@@ -93,19 +93,17 @@ module.exports = {
         try {
             let shop;
             let findQuery = {
-                where: { request_id: req.body.request_id },
+                where: { user_id: req.body.user_id },
             };
-            shop = await models.shop.findOne(findQuery);
+            shop = await models.shops.findOne(findQuery);
             if (shop) {
                 return res.status(400).json({
                     status: 400,
                     message: "Shop Already exist on this request",
                     data: []
                 });
-            } else if (!shop) {
-                console.log('shopsss')
-                shop = new models.shop({});
-                shop = await shop.create(req.body);
+            } else if (!shop && shop === null) {
+                shop = await models.shops.create(req.body);
                 if (shop) {
                     return res.status(200).json({
                         status: 200,
@@ -123,6 +121,36 @@ module.exports = {
                 return res.status(400).json({
                     status: 400,
                     message: "Db Eror",
+                    data: []
+                });
+            }
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
+
+    updateShop: async (req, res, next) => {
+        try {
+            let shop;
+            let findQuery = {
+                where: {
+                    [Op.and]: [
+                        { user_id: req.userId },
+                        { request_id: req.body.request_id }
+                    ]
+                }
+            };
+            shop = await models.shops.update(req.body, findQuery);
+            if (shop) {
+                return res.status(200).json({
+                    status: 200,
+                    message: "updated successfully",
+                    data: shop
+                });
+            } else {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Unable to create shop",
                     data: []
                 });
             }

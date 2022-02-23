@@ -2,7 +2,7 @@ const { DataTypes, Sequelize } = require('sequelize');
 
 module.exports = function( sequelize, Sequelizew ) {
 
-const Product = sequelize.define('product', {
+const Model = sequelize.define('markets', {
     id: {
         type: DataTypes.BIGINT(20),
         primaryKey: true,
@@ -14,34 +14,14 @@ const Product = sequelize.define('product', {
     description: {
         type: DataTypes.STRING,
     },
-    price :{
-        type: DataTypes.INTEGER,
-    },
     attachment:{
         type: DataTypes.STRING,
     },
-    stock:{
-        type: DataTypes.INTEGER,
+    latitude:{
+    type: DataTypes.FLOAT,
     },
-    isAvailable:{
-        type: DataTypes.BOOLEAN,
-    },
-    longDesc:{
-        type: DataTypes.STRING
-    },
-    shop_id: {
-        type: DataTypes.BIGINT(20),
-        references: {
-            model: "shops",
-            key: "id"
-        },
-    },
-    category_id: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: "categories",
-            key: "id"
-        },
+    longitude:{
+        type: DataTypes.FLOAT,
     },
     createdAt: {
         field: "created_at",
@@ -53,6 +33,6 @@ const Product = sequelize.define('product', {
       }, 
 },
 );
-return Product;
+return Model;
 }
 

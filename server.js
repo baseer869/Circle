@@ -9,8 +9,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require('dotenv').config()
 
 // Routes
-app.use('/cir/api/v1/cms', require('./app/routes/cms/index'));
-app.use('/cir/api/v1/mobile', require('./app/routes/mobile/index'));
+app.use('/cir/api/v1/cms', require('./app/routes/cms/cms'));
+app.use('/cir/api/v1/mobile', require('./app/routes/mobile/mobile'));
 
 app.use((req, res) => {
     return res.status(404).send({

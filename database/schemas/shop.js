@@ -43,6 +43,13 @@ module.exports = function (sequelize, Sequelizew) {
                 key: "id"
             }
         },
+        market_id: {
+            type: Sequelize.BIGINT(20),
+            references: {
+                model: "markets",
+                key: "id"
+            }
+        },
         createdAt: {
             field: "created_at",
             type: Sequelize.DATE,
