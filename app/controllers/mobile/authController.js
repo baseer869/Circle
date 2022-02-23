@@ -9,8 +9,20 @@ module.exports = {
 
         try {
             let { email, active, username, password, role } = req.body;
-
-            let user = new models.users({});
+            let user ;
+            let findQuery = {
+                where: {
+                    email : email
+                }
+            }
+              user = await models.users.findOne(findQuery);
+             if(user){
+                 return res.status(400).send({
+                     status: 400,
+                     message: `User already exists with this email ${email} address`
+                 })
+             }  
+            user = new models.users({});
             user.email = email;
             user.username = username;
             user.active = active;
@@ -40,9 +52,9 @@ module.exports = {
 
     login: async (req, res, next) => {
         try {
-            let { password, username } = req.body;
+            let { password, email } = req.body;
             let findQuery = {
-                where: { username: username }
+                where: { email: email }
             }
             let user = await models.users.findOne(findQuery);
             if (!user || !user.validatePassword(password, user.password)) {
@@ -53,12 +65,13 @@ module.exports = {
             } else if (user && user.validatePassword(password, user.password)) {
 
                 let token = jwt.sign({
-                    id: user.username
+                    id: user.id
                 }, 'secret', { expiresIn: 3600 });
+
                 let authKey = await models.auth_key.findOne({ where: { user_id: user.id } });
                 if (!authKey) {
                     let AuthKey = new models.auth_key({});
-                    authKey.auth_key = token;
+                    AuthKey.auth_key = token;
                     AuthKey.user_id = user.id
                     await AuthKey.save(AuthKey);
                 } else if (authKey) {

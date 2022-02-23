@@ -5,9 +5,11 @@ const model = require("../../database/sequelize/sequelize");
 module.exports = function () {
     return async function (req, res, next) {
         try {
-            // let { id, role } = req.user;
             let findQuery = {
-                where: { id:  req.userId  }
+                where: {  [Op.and]: [
+                    { id: req.userId },
+                    { role: '2' }
+                  ]}
             }
             let data = await model.users.findOne(findQuery);
             if (data) {

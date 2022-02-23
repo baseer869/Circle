@@ -27,7 +27,7 @@ const User = sequelize.define('user', {
     role: {
         type: Sequelize.ENUM,
         values: ['1', '2'], 
-        defaultValues:'2'     // 1 for admin , 2 for user
+        defaultValues:'2'     // 1 for admin , 2 for vendor
     },
     password: {
         type: Sequelize.STRING,
