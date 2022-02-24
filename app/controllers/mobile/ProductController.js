@@ -120,6 +120,88 @@ module.exports = {
         }
     },
 
+    changeProductStatus: async (req, res, next) => {
+        try {
+            let findQuery = {
+                where: { id: req.params.id }
+            };
+            let product = await models.products.update(findQuery);
+            if (product) {
+                return res.status(200).send({
+                    status: 200,
+                    message: "Product deleted",
+                    data: product
+                });
+            } else {
+                return res.status(400).send({
+                    status: 400,
+                    message: "Record not found",
+                    data: []
+                });
+            }
+
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
+
+    listStoreCategory: async (req, res, next) => {
+        try {
+            let findQuery = {
+                where: { id: req.params.id },
+                include: {
+                    model: models.categories,
+                    as: 'shop_and_categories'
+                }
+            };
+            let list = await models.shops.findOne(findQuery);
+            if (list) {
+                return res.status(200).send({
+                    status: 200,
+                    message: "Fetch successfully",
+                    data: list
+                });
+            } else {
+                return res.status(400).send({
+                    status: 400,
+                    message: "Record not found",
+                    data: []
+                });
+            }
+
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
+
+    listCategory: async (req, res, next) => {
+        try {
+            let findQuery = {
+                where: [],
+            };
+            if (req.query.search) {
+                findQuery.where.push({ name: { [Op.like]: `%${String(req.query.search).trim()}%` } })
+            }
+            let list = await models.categories.findAll(findQuery);
+            if (list) {
+                return res.status(200).send({
+                    status: 200,
+                    message: "Fetch successfully",
+                    data: list
+                });
+            } else {
+                return res.status(400).send({
+                    status: 400,
+                    message: "Record not found",
+                    data: []
+                });
+            }
+
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
+
     /********************** CART ************************************* */
 
     addToCart: async (req, res, next) => {
@@ -127,44 +209,44 @@ module.exports = {
             let { user_id, product_id, price, quantity, discount, active } = req.body;
             let cart;
             let findQuery = {
-                where: { product_id: product_id  }
+                where: { product_id: product_id }
             };
             console.log('find==>', findQuery);
 
-        //    let item = await models.cart.findAll({});
-        //     console.log('cartaaa==>', item)
-        //     if (item) {
-        //         // increase the quantity
+            //    let item = await models.cart.findAll({});
+            //     console.log('cartaaa==>', item)
+            //     if (item) {
+            //         // increase the quantity
 
-        //         return res.status(200).send({
-        //             status: 200,
-        //             message: "cart ",
-        //             data: item
-        //         });
-        //     } else if (!item) {
+            //         return res.status(200).send({
+            //             status: 200,
+            //             message: "cart ",
+            //             data: item
+            //         });
+            //     } else if (!item) {
 
-                //create  new cart item 
-                cart = new models.cart({});
-                cart.user_id = user_id;
-                cart.product_id = product_id;
-                cart.quantity = quantity;
-                cart.price = price;
-                cart.discount = discount;
-                cart.active = active;
-                cart = await cart.save();
-                if (cart) {
-                    return res.status(200).send({
-                        status: 200,
-                        message: "Item added to cat",
-                        data: cart
-                    });
-                } else {
-                    return res.status(200).send({
-                        status: 200,
-                        message: "DB Error",
-                        data: cart
-                    });
-                }
+            //create  new cart item 
+            cart = new models.cart({});
+            cart.user_id = user_id;
+            cart.product_id = product_id;
+            cart.quantity = quantity;
+            cart.price = price;
+            cart.discount = discount;
+            cart.active = active;
+            cart = await cart.save();
+            if (cart) {
+                return res.status(200).send({
+                    status: 200,
+                    message: "Item added to cat",
+                    data: cart
+                });
+            } else {
+                return res.status(200).send({
+                    status: 200,
+                    message: "DB Error",
+                    data: cart
+                });
+            }
 
             // }
 

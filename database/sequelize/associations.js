@@ -20,4 +20,14 @@ module.exports = function (db) {
         through: db.cart_product
     });
 
+    // --// shop -> Category
+    db.categories.belongsToMany(db.shops, {
+        through: 'shop_and_categories',
+        foreignKey: 'shop_id',
+    });
+    db.shops.belongsToMany(db.categories, {
+        through: 'shop_and_categories',
+        foreignKey: 'category_id',
+    });
+
 }

@@ -21,6 +21,4 @@ router.post('/createShop',   shopRequestController.createShop)
 
 
 
-
-
 module.exports = router;

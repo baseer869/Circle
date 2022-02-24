@@ -50,6 +50,13 @@ module.exports = function (sequelize, Sequelizew) {
                 key: "id"
             }
         },
+        category_id:{
+            type: Sequelize.BIGINT(20),
+            references: {
+                model: "categories",
+                key: "id"
+            }
+        },
         createdAt: {
             field: "created_at",
             type: Sequelize.DATE,

@@ -12,6 +12,10 @@ let db = {
  shop_request: (require('../schemas/shop_request'))(instance, Sequelize),
  auth_key: (require('../schemas/auth_key'))(instance, Sequelize),
  shops: (require('../schemas/shop'))(instance, Sequelize),
+ categories: (require('../schemas/categories'))(instance, Sequelize),
+ shop_and_categories: (require('../schemas/shop_and_categories'))(instance, Sequelize),
+
+
 
 
 
