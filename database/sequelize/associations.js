@@ -21,12 +21,13 @@ module.exports = function (db) {
     });
 
     // --// shop -> Category
-    db.categories.belongsToMany(db.shops, {
-        through: 'shop_and_categories',
-        foreignKey: 'shop_id',
+    db.categories.hasMany(db.shop_and_categories, {
+        as :"categories_shop",
+        foreignKey: 'category_id',
     });
-    db.shops.belongsToMany(db.categories, {
-        through: 'shop_and_categories',
+    db.shop_and_categories.belongsTo(db.categories, {
+        as :"categories",
+        // through: db.shop_and_categories,
         foreignKey: 'category_id',
     });
 

@@ -148,13 +148,13 @@ module.exports = {
     listStoreCategory: async (req, res, next) => {
         try {
             let findQuery = {
-                where: { id: req.params.id },
+                where: { shop_id: req.params.id },
                 include: {
                     model: models.categories,
-                    as: 'shop_and_categories'
-                }
+                    as: 'categories_shop'
+                },                
             };
-            let list = await models.shops.findOne(findQuery);
+            let list = await models.shop_and_categories.findOne(findQuery);
             if (list) {
                 return res.status(200).send({
                     status: 200,
