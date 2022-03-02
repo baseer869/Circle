@@ -14,6 +14,8 @@ const shopRequestController = require('../../controllers/mobile/shopRequestContr
 router.post('/signUp', authController.signUp);
 router.post('/login', authController.login)
 router.get('/listUser', authenticate(), authorization(), authController.listUser);
+router.get('/authenticateUser', authenticate(),  authController.authenticateUser);
+
 
 
 /********************** Vendor****************************/
@@ -23,7 +25,7 @@ router.post('/editProduct/:id', authenticate(),  productController.editProduct);
 router.delete('/deleteProduct/:id', authenticate(),  productController.deleteProduct);
 router.post('/changeProductStatus/:id', authenticate(),  productController.changeProductStatus);  // change later when sceneriaio clear 
 router.get('/listStoreCategory/:id', authenticate(),  productController.listStoreCategory);  // change later when sceneriaio clear 
-router.get('/listCategory', authenticate(),  productController.listCategory);  // change later when sceneriaio clear 
+router.get('/listCategory', productController.listCategory);  // change later when sceneriaio clear 
 
 
 

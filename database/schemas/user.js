@@ -57,11 +57,18 @@ const User = sequelize.define('user', {
 User.prototype.toJSON = function () {
     let attributes = this.get();
     delete attributes.createdAt;
-    delete attributes.updatedAt;
-      
+    delete attributes.updatedAt;      
     attributes.username == "" || attributes.username == null ? attributes.username = "Annonyoums" : '';
     if(attributes.role === '2'){
-        delete attributes.role;
+        delete attributes.password
+        delete attributes.email,
+        delete attributes.zip,
+        delete attributes.address,
+        delete attributes.state,
+        delete attributes.city,
+        delete attributes.token,
+        delete attributes.state,
+        attributes.role = "vendor";
     }
     if(attributes.role ==='1'){
          attributes.role = "admin"

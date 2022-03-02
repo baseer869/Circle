@@ -86,7 +86,8 @@ module.exports = {
                 return res.status(200).json({
                     status: 200,
                     message: "Login success",
-                    token: token
+                    token: token,
+                    user: user
                 });
             } else {
                 return res.status(400).send({
@@ -122,5 +123,40 @@ module.exports = {
         } catch (error) {
             sendResponse.error(error)
         }
-    }
+    },
+    authenticateUser: async function (req, res, next) {
+        try {
+            let user;
+            console.log('logind id ==>', req.userId);
+            let findQuery = {
+                where : { user_id: req.userId }
+            };
+            user = await models.users.findOne({
+                where: {id: req.userId  },
+                attributes:['id', 'email','username','role']
+            });
+            if (!user) {
+                return res.status(200).send({
+                    status: 200,
+                    message: `No record found`
+                });
+            } else if(user){
+                let auth_key = await models.auth_key.findOne(findQuery);
+                if(auth_key){
+                    return res.status(200).json({
+                        status: 200,
+                        message: 'success',
+                        data: {
+                            user: user,
+                            authorization: auth_key.auth_key
+                        }
+        
+                    });                  
+                }
+            }
+
+        } catch (error) {
+            sendResponse.error(error)
+        }
+    },
 }

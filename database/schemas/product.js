@@ -43,6 +43,17 @@ module.exports = function (sequelize, Sequelizew) {
                 key: "id"
             },
         },
+        unitType:{
+            type: Sequelize.STRING,    
+        },
+        discountedPrice:{
+            type: Sequelize.FLOAT,
+            defaultValues:0.0
+        },
+        isAvailable :{
+           type: Sequelize.BOOLEAN,
+           defaultValues: true,
+        },
         createdAt: {
             field: "created_at",
             type: Sequelize.DATE,
@@ -51,6 +62,7 @@ module.exports = function (sequelize, Sequelizew) {
             field: "updated_at",
             type: Sequelize.DATE,
         },
+       
     },
     );
     return Product;
