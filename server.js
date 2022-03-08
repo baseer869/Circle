@@ -7,6 +7,8 @@ app.use(express.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.use(bodyParser.urlencoded({ extended: true }));
 require('dotenv').config()
+const cors = require('cors');
+app.options('*', cors())
 
 // Routes
 app.use('/cir/api/v1/cms', require('./app/routes/cms/cms'));

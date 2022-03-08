@@ -20,12 +20,14 @@ router.get('/authenticateUser', authenticate(),  authController.authenticateUser
 
 /********************** Vendor****************************/
 router.post('/shopRequest', shopRequestController.shopRequest)
-router.post('/addProduct', authenticate(),  productController.addProduct);
+router.post('/addProduct',   productController.addProduct);
 router.post('/editProduct/:id', authenticate(),  productController.editProduct);
-router.delete('/deleteProduct/:id', authenticate(),  productController.deleteProduct);
-router.post('/changeProductStatus/:id', authenticate(),  productController.changeProductStatus);  // change later when sceneriaio clear 
-router.get('/listStoreCategory/:id', authenticate(),  productController.listStoreCategory);  // change later when sceneriaio clear 
-router.get('/listCategory', productController.listCategory);  // change later when sceneriaio clear 
+router.delete('/deleteProduct/:id',  productController.deleteProduct);
+router.post('/changeProductStatus/:id', authenticate(),  productController.changeProductStatus);  
+router.get('/listStoreCategory/:id', authenticate(),  productController.listStoreCategory);
+router.get('/listCategory', productController.listCategory);
+router.get('/listStoreProduct/:id', productController.listStoreProduct); //add authroization
+
 
 
 

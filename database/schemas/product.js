@@ -2,7 +2,7 @@ const { DataTypes, Sequelize } = require('sequelize');
 
 module.exports = function (sequelize, Sequelizew) {
 
-    const Product = sequelize.define('product', {
+    const Model = sequelize.define('products', {
         id: {
             type: DataTypes.BIGINT(20),
             primaryKey: true,
@@ -15,16 +15,13 @@ module.exports = function (sequelize, Sequelizew) {
             type: DataTypes.STRING,
         },
         price: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
         },
         attachment: {
             type: DataTypes.STRING,
         },
         stock: {
             type: DataTypes.INTEGER,
-        },
-        status: {
-            type: DataTypes.BOOLEAN,
         },
         longDesc: {
             type: DataTypes.STRING
@@ -65,6 +62,6 @@ module.exports = function (sequelize, Sequelizew) {
        
     },
     );
-    return Product;
+    return Model;
 }
 
