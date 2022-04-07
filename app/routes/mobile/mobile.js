@@ -6,6 +6,7 @@ const authorization = require('../../middleware/authorization');
 const authController = require('../../controllers/mobile/authController');
 const productController = require('../../controllers/mobile/ProductController');
 const shopRequestController = require('../../controllers/mobile/shopRequestController');
+const cartController = require('../../controllers/mobile/cartController');
 
 
 
@@ -31,14 +32,33 @@ router.get('/listStoreProduct/:id', productController.listStoreProduct); //add a
 
 
 
+
+
+
 // --- // 
 router.post('/updateShop', authenticate(), shopRequestController.updateShop)
 
 
 
 /******************* End User  ***************************/
-router.get('/listProduct', productController.listProduct);
-router.post('/addToCart', authenticate(), productController.addToCart)
+router.get('/listMarket', productController.listMarket); 
+router.get('/listStore', productController.listStore); 
+router.get('/listProduct/:id', productController.listProduct);
+// 
+router.get('/listShopCategory/:id',  productController.listShopCategory)
+router.get('/categoryProduct', productController.categoryProduct )
+// 
+router.get('/storeChoiceProduct', productController.storeChoiceProduct )
+
+// CART 
+router.post('/addUpdateCart', authenticate(), cartController.addUpdateCart )
+router.get('/listCart/:id', authenticate(), cartController.listCart )
+router.post('/removeFromCart/:id', authenticate(), cartController.removeFromCart)
+
+
+
+// 
+
 
 
 

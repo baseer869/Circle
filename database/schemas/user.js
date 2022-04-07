@@ -73,6 +73,10 @@ User.prototype.toJSON = function () {
     if(attributes.role ==='1'){
          attributes.role = "admin"
     }
+    if(attributes.role === null){
+        attributes.role = "customer",
+        delete attributes.password
+   }
     return attributes;
 }
 User.prototype.generatePassword = function (password, option) {

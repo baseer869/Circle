@@ -26,6 +26,11 @@ module.exports = function (sequelize, Sequelizew) {
         longDesc: {
             type: DataTypes.STRING
         },
+        storeChoice:{
+            type:  Sequelize.ENUM,
+            values: ['0', '1'],
+            defaultValues:'0'
+        },
         shop_id: {
             type: DataTypes.BIGINT(20),
             references: {

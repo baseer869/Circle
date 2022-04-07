@@ -1,36 +1,35 @@
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes, Sequelize } = require("sequelize");
 
 module.exports = function (sequelize, Sequelizew) {
-
-    const Model = sequelize.define('cart', {
-        id: {
-            type: DataTypes.BIGINT(20),
-            primaryKey: true,
-            autoIncrement: true
-        },
-        user_id: {
-            type: DataTypes.BIGINT(20),
-            references: {
-                model: "user",
-                key: "id"
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
-        },
-        price: {
-            type: DataTypes.INTEGER,
-        },
-        quantity: {
-            type: DataTypes.INTEGER,
-        },
-        discount: {
-            type: DataTypes.INTEGER,
-        },
-        active: {
-            type: DataTypes.BOOLEAN,
-        },
+  const Model = sequelize.define("carts", {
+    id: {
+      type: DataTypes.BIGINT(20),
+      primaryKey: true,
+      autoIncrement: true,
     },
-    );
-    return Model;
-}
-
+    status: {
+      type: DataTypes.ENUM,
+      values: ['0', '1'],  // 0 for active 1 for inactive
+      defaultValues: '0'  
+    },
+    active: {
+      type: DataTypes.BOOLEAN, // if user
+    },
+    userId: {
+      type: DataTypes.BIGINT(20),
+      references: {
+        model: "user",
+        key: "id",
+      },
+    },
+    createdAt: {
+      field: "created_at",
+      type: Sequelize.DATE,
+    },
+    updatedAt: {
+      field: "updated_at",
+      type: Sequelize.DATE,
+    }, 
+  });
+  return Model;
+};

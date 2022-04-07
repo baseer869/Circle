@@ -2,33 +2,53 @@ module.exports = function (db) {
 
     db.users.hasMany(db.cart, {
         as: 'carts',
-        foreignKey: 'cart_id',
+        foreignKey: 'userId',
     });
     db.cart.belongsTo(db.users, {
         as: "users",
-        foreignKey: 'cart_id',
+        foreignKey: 'userId',
     });
     
-    db.cart.belongsToMany( db.products, {
-        as: 'products',
-        foreignKey: 'product_id',
-        through: db.cart_product
-    });
-    db.products.belongsToMany( db.cart, {
-        as: 'cart_products',
-        foreignKey: 'cart_id',
-        through: db.cart_product
-    });
+ 
 
     // --// shop -> Category
-    db.categories.hasMany(db.shop_and_categories, {
-        as :"categories_shop",
+    db.shops.hasMany(db.shop_category, {
+        as :"shop_category",
         foreignKey: 'category_id',
     });
-    db.shop_and_categories.belongsTo(db.categories, {
+    db.shop_category.belongsTo(db.shops, {
         as :"categories",
         // through: db.shop_and_categories,
         foreignKey: 'category_id',
     });
 
+    //shop and categories relation 
+
+    db.categories.hasMany(db.shop_and_categories,{
+        as:"shop_and_categories",
+        foreignKey: 'category_id'
+    });
+    db.shop_and_categories.belongsTo(db.categories, {
+        as:'categories',
+        foreignKey: 'category_id'
+    })
+
+
+    // CART
+    db.cart.hasMany(db.cart_items,{
+        as:"cart_items",
+        foreignKey: 'cartId'
+    });
+    db.cart_items.belongsTo(db.cart, {
+        as:'carts',
+        foreignKey: 'cartId'
+    });
+    db.products.hasMany(db.cart_items, {
+        as:'cart_items',
+        foreignKey:"productId",
+    });
+    db.cart_items.belongsTo(db.products, {
+        as:'cart_items',
+        foreignKey:"productId",
+    });
 }

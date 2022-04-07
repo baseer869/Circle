@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const models = require("../../../database/sequelize/sequelize");
 const sendResponse = require("../../utility/functon/sendResponse");
 
@@ -135,12 +135,8 @@ module.exports = {
     try {
       let findQuery = {
         where: { shop_id: req.params.id },
-        include: {
-          model: models.categories,
-          as: "categories_shop",
-        },
       };
-      let list = await models.shop_and_categories.findOne(findQuery);
+      let list = await models.shop_category.findOne(findQuery);
       if (list) {
         return res.status(200).send({
           status: 200,
@@ -189,7 +185,6 @@ module.exports = {
   },
   listStoreProduct: async (req, res, next) => {
     try {
-
       let findQuery = {
         where: { shop_id: req.params.id },
       };
@@ -216,55 +211,179 @@ module.exports = {
       sendResponse.error(error);
     }
   },
-  /********************** CART ************************************* */
 
-  addToCart: async (req, res, next) => {
+  listMarket: async (req, res, next) => {
     try {
-      let { user_id, product_id, price, quantity, discount, active } = req.body;
-      let cart;
       let findQuery = {
-        where: { product_id: product_id },
+        // where: { shop_id: req.params.id },
       };
-      console.log("find==>", findQuery);
-
-      //    let item = await models.cart.findAll({});
-      //     console.log('cartaaa==>', item)
-      //     if (item) {
-      //         // increase the quantity
-
-      //         return res.status(200).send({
-      //             status: 200,
-      //             message: "cart ",
-      //             data: item
-      //         });
-      //     } else if (!item) {
-
-      //create  new cart item
-      cart = new models.cart({});
-      cart.user_id = user_id;
-      cart.product_id = product_id;
-      cart.quantity = quantity;
-      cart.price = price;
-      cart.discount = discount;
-      cart.active = active;
-      cart = await cart.save();
-      if (cart) {
+      // if (search) {
+      //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
+      // }
+      let list = await models.markets.findAll(findQuery);
+      if (!list) {
         return res.status(200).send({
           status: 200,
-          message: "Item added to cat",
-          data: cart,
+          messsage: "No record",
+          data: [],
         });
-      } else {
+      } else if (list) {
         return res.status(200).send({
           status: 200,
-          message: "DB Error",
-          data: cart,
+          message: "fetch successfull",
+          data: {
+            list: list,
+          },
         });
       }
-
-      // }
     } catch (error) {
       sendResponse.error(error);
     }
   },
+
+  listStore: async (req, res, next) => {
+    try {
+      let findQuery = {
+        where:{ market_id: req.query.id},
+        // include: [
+        //   {
+        //     model: models.shop_category,
+        //     as: "categories",
+        //   },
+        // ],
+      };
+      // if (search) {
+      //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
+      // }
+      let list = await models.shops.findAll(findQuery);
+      if (!list) {
+        return res.status(200).send({
+          status: 200,
+          messsage: "No record",
+          data: [],
+        });
+      } else if (list) {
+        return res.status(200).send({
+          status: 200,
+          message: "fetch successfull",
+          data: {
+            list: list,
+          },
+        });
+      }
+    } catch (error) {
+      sendResponse.error(error);
+    }
+  },
+
+  // App consumer
+
+  
+  listShopCategory: async (req, res, next) => {
+    try {
+      let findQuery = {
+        where: { shop_id:  req.params.id},
+        include:{
+          model: models.categories,
+          as:"categories",
+          attributes:['id', 'name', 'attachment', 'color' ]
+        }
+      };
+      // if (search) {
+      //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
+      // }
+      let list = await models.shop_and_categories.findAll(findQuery);
+      if (!list) {
+        return res.status(200).send({
+          status: 200,
+          messsage: "No record",
+          data: [],
+        });
+      } else if (list) {
+        return res.status(200).send({
+          status: 200,
+          message: "fetch successfull",
+          data: {
+            list: list,
+          },
+        });
+      }
+    } catch (error) {
+      sendResponse.error(error);
+    }
+  },
+
+  categoryProduct: async (req, res, next) => {
+    try {
+      let findQuery = {
+        where: {
+          [Op.and]: [
+            { shop_id: req.query.id },
+            { category_id: req.query.category_id }
+          ],
+        },
+        // include:{
+        //   model: models.cart,
+        //   as: "products",
+        //   // where:{ userId: 32 }
+        // }
+      };
+      // if (search) {
+      //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
+      // }
+      let list = await models.products.findAndCountAll(findQuery);
+      if (!list) {
+        return res.status(200).send({
+          status: 200,
+          messsage: "No record",
+          data: [],
+        });
+      } else if (list) {
+        return res.status(200).send({
+          status: 200,
+          message: "fetch successfull",
+          data: {
+            list: list,
+          },
+        });
+      }
+    } catch (error) {
+      sendResponse.error(error);
+    }
+  },
+// 
+storeChoiceProduct: async (req, res, next) => {
+  try {
+    let findQuery = {
+      where: {
+        [Op.and]: [
+          { shop_id: req.query.id },
+          {storeChoice: '1'}
+        ],
+      }
+    };
+    // if (search) {
+    //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
+    // }
+    let list = await models.products.findAndCountAll(findQuery);
+    if (!list) {
+      return res.status(200).send({
+        status: 200,
+        messsage: "No record",
+        data: [],
+      });
+    } else if (list) {
+      return res.status(200).send({
+        status: 200,
+        message: "fetch successfull",
+        data: {
+          list: list,
+        },
+      });
+    }
+  } catch (error) {
+    sendResponse.error(error);
+  }
+},
+
 };

@@ -17,6 +17,9 @@ const Product = sequelize.define('categories', {
     attachment:{
         type: DataTypes.STRING,
     },
+    color:{
+        type: DataTypes.STRING,
+    },
     createdAt: {
         field: "created_at",
         type: Sequelize.DATE,

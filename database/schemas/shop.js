@@ -14,6 +14,10 @@ module.exports = function (sequelize, Sequelizew) {
         phone: {
             type: DataTypes.INTEGER,
         },
+        title:{
+            type: DataTypes.STRING,
+            trim: true,
+        },
         attachement: {
             type: DataTypes.STRING,
         },
