@@ -66,7 +66,7 @@ module.exports = {
 
                 let token = jwt.sign({
                     id: user.id
-                }, 'secret', { expiresIn: 3600 });
+                }, 'secret',);
 
                 let authKey = await models.auth_key.findOne({ where: { user_id: user.id } });
                 if (!authKey) {

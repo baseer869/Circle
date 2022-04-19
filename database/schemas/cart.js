@@ -7,6 +7,27 @@ module.exports = function (sequelize, Sequelizew) {
       primaryKey: true,
       autoIncrement: true,
     },
+    totalPrice: {
+      type: DataTypes.INTEGER,
+      defaultValues:0
+    },
+    quantity:{
+      type: DataTypes.INTEGER,
+    },
+    productId: {
+      type: DataTypes.BIGINT(20),
+      references: {
+        model: "products",
+        key: "id",
+      },
+    },
+    shopId: {
+      type: DataTypes.BIGINT(20),
+      references: {
+        model: "shop",
+        key: "id",
+      },
+    },
     status: {
       type: DataTypes.ENUM,
       values: ['0', '1'],  // 0 for active 1 for inactive
@@ -16,7 +37,7 @@ module.exports = function (sequelize, Sequelizew) {
       type: DataTypes.BOOLEAN, // if user
     },
     userId: {
-      type: DataTypes.BIGINT(20),
+      type: DataTypes.INTEGER,
       references: {
         model: "user",
         key: "id",

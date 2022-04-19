@@ -322,11 +322,12 @@ module.exports = {
             { category_id: req.query.category_id }
           ],
         },
-        // include:{
-        //   model: models.cart,
-        //   as: "products",
-        //   // where:{ userId: 32 }
-        // }
+        include:{
+          model: models.cart,
+          as: "carts_products",
+          where:{ userId: 32 },
+          required: false
+        }
       };
       // if (search) {
       //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
@@ -366,6 +367,37 @@ storeChoiceProduct: async (req, res, next) => {
     //     findQuery.where.push({ name: { [Op.like]: '%' + search + '%' } });
     // }
     let list = await models.products.findAndCountAll(findQuery);
+    if (!list) {
+      return res.status(200).send({
+        status: 200,
+        messsage: "No record",
+        data: [],
+      });
+    } else if (list) {
+      return res.status(200).send({
+        status: 200,
+        message: "fetch successfull",
+        data: {
+          list: list,
+        },
+      });
+    }
+  } catch (error) {
+    sendResponse.error(error);
+  }
+},
+
+
+productDetail: async (req, res, next) => {
+  try {
+    let findQuery = {
+      where: {  id: req.params.id },
+      include:{
+        model: models.cart,
+        as:"carts_products"
+      }
+    };
+    let list = await models.products.findOne(findQuery);
     if (!list) {
       return res.status(200).send({
         status: 200,

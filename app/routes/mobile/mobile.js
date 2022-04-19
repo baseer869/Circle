@@ -52,9 +52,10 @@ router.get('/storeChoiceProduct', productController.storeChoiceProduct )
 
 // CART 
 router.post('/addUpdateCart', authenticate(), cartController.addUpdateCart )
+router.post('/addUpdateCart2', authenticate(), cartController.addUpdateCart2)
 router.get('/listCart/:id', authenticate(), cartController.listCart )
 router.post('/removeFromCart/:id', authenticate(), cartController.removeFromCart)
-
+router.get('/getProductDetail/:id',   productController.productDetail )
 
 
 // 

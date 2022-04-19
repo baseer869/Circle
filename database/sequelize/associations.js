@@ -35,14 +35,29 @@ module.exports = function (db) {
 
 
     // CART
-    db.cart.hasMany(db.cart_items,{
-        as:"cart_items",
-        foreignKey: 'cartId'
+     // cart -> product
+
+     db.products.hasMany(db.cart, {
+        as:'carts_products',
+        foreignKey:"productId",
     });
-    db.cart_items.belongsTo(db.cart, {
-        as:'carts',
-        foreignKey: 'cartId'
+    db.cart.belongsTo(db.products, {
+        as:'products',
+        foreignKey:"productId",
     });
+
+
+    db.shops.hasMany(db.cart, {
+        as:'carts_shop',
+        foreignKey:"shopId",
+    });
+    db.cart.belongsTo(db.shops, {
+        as:'shops',
+        foreignKey:"shopId",
+    });
+    
+    //
+
     db.products.hasMany(db.cart_items, {
         as:'cart_items',
         foreignKey:"productId",
